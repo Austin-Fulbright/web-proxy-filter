@@ -1,0 +1,23 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# dotenv environment variables file
+.env
+.env.test
+
+# Optional npm cache directory
+.npm
+
+# Compiled binary addons
+build/Release
+build
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Other
+.DS_Store
+package-lock.json
