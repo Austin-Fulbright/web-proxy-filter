@@ -1,13 +1,11 @@
 const net = require("net");
+const DB = require('better-sqlite3-helper');
 const proxyServer = net.createServer();
 const moment = require("moment");
-//var dateStamp = moment().format('YYYY-MM-DD h:mm:ss A');
-
 
 const HTTP_STATUS_200 = "HTTP/1.1 200 OK\r\n\n";
 const HTTP_STATUS_401 = "HTTP/1.1 401 Unauthorized\r\n\nSite blocked.";
 const HTTP_STATUS_503 = "HTTP/1.1 503 Service Unavailable";
-
 
 
 /**
@@ -18,10 +16,9 @@ const HTTP_STATUS_503 = "HTTP/1.1 503 Service Unavailable";
  * @returns
  */
 function IsFound(text, regexp) {  
-  var regexp = RegExp(regexp);  
+  regexp = RegExp(regexp);  
   return text.search(regexp) >= 0;
 }
-
 
 
 /**
@@ -33,7 +30,7 @@ function IsFound(text, regexp) {
  * @returns
  */
 function GetToken(string, separator, index) {  
-  var returnValue = "";  
+  let returnValue = "";  
   if(string !== null && string !== undefined) 
   {
     returnValue = string.split(separator)[index];
@@ -49,7 +46,7 @@ function GetToken(string, separator, index) {
  * @param {*} buffer
  * @returns
  */
-function GetDetailsFromBuffer(buffer) {
+function GetDetailsFromBuffer(buffer, isOnBlackList) {
   let bufferString = buffer.toString();
   
   const defaultPort = "80";
@@ -57,21 +54,25 @@ function GetDetailsFromBuffer(buffer) {
   
   bufferLines = bufferString.split("\r\n");   
   
+  // filter bufferLines to get only lines that 
+  // ALWAYS INCLUDE INDEX 0
+  // ON INDEX 1 and above, loop through all lines until you
+  // only have User-Agent and Host
+  
   const isHttps = GetToken(bufferLines[0], " ", 0) === "CONNECT";  
   const domain = GetToken(bufferLines[1], ":", 1).trim();
   const port = GetToken(bufferLines[1], ":", 2).trim() || defaultPort;
-  const userAgent = GetToken(bufferLines[3], ":", 1).trim();  
+  const userAgent = GetToken(bufferLines[3], ":", 1).trim();    
   
   return {
-    isHttps: isHttps,
+    isHttps: isHttps ? 1 : 0,
     domain: domain,
     port: port,
     userAgent: userAgent,
-    dateStamp: dateStamp    
-  };    
+    dateStamp: dateStamp,
+    blockedByList: isOnBlackList ? 1 : 0,
+  };      
 }
-
-
 
 /**
  * Blocks requests and terminates session. 
@@ -125,7 +126,7 @@ function AllowUnsecureRequest(clientSocket, serverSocket, buffer) {
 function RunForEachConnection(clientToProxySocket) {
   
   clientToProxySocket.once("data", (buffer) => {    
-    buff = GetDetailsFromBuffer(buffer);      
+    let buff = GetDetailsFromBuffer(buffer);      
 
     let proxyToServerSocket = net.createConnection(
       {
@@ -134,9 +135,9 @@ function RunForEachConnection(clientToProxySocket) {
       },
       () => {
 
-        let isOnWhiteList = IsFound(buff.domain, "shinylight");
+        let isOnBlackList = IsFound(buff.domain, "shinylight");
 
-        if (isOnWhiteList) {
+        if (isOnBlackList) {
           BlockRequest(clientToProxySocket, proxyToServerSocket);
         } else {
           if (buff.isHttps) {
@@ -146,7 +147,10 @@ function RunForEachConnection(clientToProxySocket) {
           }
         }
         
-        console.log(GetDetailsFromBuffer(buffer));
+        //console.log(GetDetailsFromBuffer(buffer, isOnBlackList));
+        let logEntry = GetDetailsFromBuffer(buffer, isOnBlackList);
+        
+        DB().insert('LogEntry', logEntry);        
       }
     );
 

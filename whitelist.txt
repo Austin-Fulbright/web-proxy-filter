@@ -1,0 +1,4 @@
+# ShinyLight.com
+shinylight\.com$
+
+#^(www\.)?shinylight\.com$

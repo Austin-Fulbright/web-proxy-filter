@@ -1,3 +1,52 @@
+// const db = require('better-sqlite3')('foobar.db', {});
+// const row = db.prepare('SELECT * FROM request');
+// console.log(row.all());
+
+// const Database = require('better-sqlite3');
+// const db = new Database('foobar.db');
+// const sql = db.prepare('SELECT name, age FROM cats');
+
+
+/////////////////////////
+
+let entry = {
+  isHttps: 1,
+  domain: "google.com",
+  port: "443",
+  userAgent: "FireFox",
+  dateStamp: "2020-01-23",
+  blockedByList: 0,
+};
+
+const DB = require('better-sqlite3-helper');
+ 
+// let row = DB().queryFirstRow('SELECT * FROM LogEntry');
+
+// console.log(row);
+
+
+DB().insert('LogEntry', entry);
+
+
+//DB().delete('LogEntry', {1: 1});
+
+let rows = DB().query('SELECT * FROM LogEntry');
+
+console.log(rows.length);
+
+
+
+
+
+DB().run('DELETE FROM LogEntry');
+
+
+
+console.log(rows.length);
+
+
+
+
 const moment = require("moment");
 
 //test
