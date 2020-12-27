@@ -54,7 +54,7 @@ function BlockRequest(clientSocket, serverSocket) {
   // console.log("BLOCKED")
   // Do other stuff before hand.
   
-  clientSocket.write(Constants.HTTP_STATUS_401);  
+  clientSocket.write(constants.HTTP_STATUS_401);  
   clientSocket.pipe(serverSocket);
   serverSocket.pipe(clientSocket);  
   clientSocket.end();
@@ -96,9 +96,6 @@ function RunForEachConnection(clientToProxySocket) {
   
   clientToProxySocket.once("data", (buffer) => {    
     let buff = GetDetailsFromBuffer(buffer);      
-
-    
-    
     
     let proxyToServerSocket = net.createConnection(
       {
@@ -107,16 +104,12 @@ function RunForEachConnection(clientToProxySocket) {
       },
       () => {
 
-        let isOnBlackList = Utils.IsFound(buff.domain, "shinylight");
-
-        
-        
+        let isOnBlackList = Utils.IsFound(buff.domain, "shinylight");        
+                
         if (isOnBlackList) {
           BlockRequest(clientToProxySocket, proxyToServerSocket);
         } else {
           if (buff.isHttps) {
-            
-            
             AllowSecureRequest(clientToProxySocket, proxyToServerSocket);
           } else {
             AllowUnsecureRequest(clientToProxySocket, proxyToServerSocket, buffer);
@@ -132,7 +125,7 @@ function RunForEachConnection(clientToProxySocket) {
     // If there was an oopsie.
     proxyToServerSocket.on("error", (error) => {
       clientToProxySocket.write(
-        [Constants.HTTP_STATUS_503, "connection: close"].join("\n") + "\n\n"
+        [constants.HTTP_STATUS_503, "connection: close"].join("\n") + "\n\n"
       );
       clientToProxySocket.end();
     });
