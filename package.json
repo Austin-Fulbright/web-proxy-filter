@@ -1,13 +1,13 @@
 {
-    "name": "proxy2",
+    "name": "web-proxy-filter",
     "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
+    "description": "Web Proxy Filter.",
+    "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node index.js"
+        "start": "node app.js"
     },
-    "author": "",
+    "author": "ShinyLight",
     "license": "ISC",
     "dependencies": {
         "better-sqlite3": "^7.1.2",
