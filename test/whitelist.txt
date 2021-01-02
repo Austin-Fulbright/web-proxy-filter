@@ -1,0 +1,22 @@
+######################################################################
+# This whitelist is here for the unit test GetDomainListFromFile()
+# Don't TOUCH THIS unless you also modify the test. 
+######################################################################
+
+www.bing.com  
+google.com
+
+
+
+
+ask.com
+
+
+
+
+yahoo.com
+
+
+# ask.com
+
+microsoft.com

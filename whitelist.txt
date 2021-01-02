@@ -1,4 +1,19 @@
-# ShinyLight.com
-shinylight\.com$
 
-#^(www\.)?shinylight\.com$
+
+www.bing.com  
+google.com
+
+
+
+
+ask.com
+
+
+
+
+yahoo.com
+
+
+# ask.com
+
+microsoft.com
