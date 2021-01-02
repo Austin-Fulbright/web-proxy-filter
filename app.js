@@ -34,8 +34,10 @@ proxyServer.on("close", () => {
 // Problems with proxy server.
 // =============================================
 proxyServer.on("error", (error) => {
+  console.log("\n");  
   console.log("SERVER ERROR");
   console.log(error);  
+  console.log("\n");  
 });
 
 

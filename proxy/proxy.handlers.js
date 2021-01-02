@@ -1,6 +1,6 @@
 const net = require("net");
 const moment = require("moment");
-const DB = require('better-sqlite3-helper');
+//const DB = require('better-sqlite3-helper');
 
 const Utils = require('./proxy.utils');
 const constants = require('./constants').Constants;
@@ -118,7 +118,7 @@ function RunForEachConnection(clientToProxySocket) {
  
         let logEntry = GetDetailsFromBuffer(buffer, isOnBlackList);
         
-        DB().insert('LogEntry', logEntry);        
+        //DB().insert('LogEntry', logEntry);
       }
     );
 

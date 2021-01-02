@@ -1,17 +1,35 @@
 {
-    "name": "web-proxy-filter",
-    "version": "1.0.0",
-    "description": "Web Proxy Filter.",
-    "main": "app.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node app.js"
-    },
-    "author": "ShinyLight",
-    "license": "ISC",
-    "dependencies": {
-        "better-sqlite3": "^7.1.2",
-        "better-sqlite3-helper": "^3.1.1",
-        "moment": "^2.29.1"
-    }
+  "name": "web-proxy-filter",
+  "version": "1.0.0",
+  "description": "Web Proxy Filter.",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node app.js",
+    "publish": "node ./build/publish.prod.js"
+  },
+  "author": "ShinyLight",
+  "license": "ISC",
+  "dependencies": {
+    "copy-dir": "^1.3.0",
+    "jest": "^26.6.3",
+    "moment": "^2.29.1",
+    "sqlite3": "^5.0.0",
+    "sqlite3-helper": "^2.0.1"
+  },
+  "bin": {
+    "web-proxy-filter": "app.js"
+  },
+  "pkg": {
+    "scripts": [
+      "./proxy/*.js",
+      "./*.js"
+    ],
+    "assets": [
+      "./node_modules/sqlite3",
+      "./node_modules/sqlite3-helper",
+      "./data/*",
+      "./migrations/*"      
+    ]
+  }
 }

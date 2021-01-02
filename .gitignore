@@ -10,8 +10,9 @@ jspm_packages/
 .npm
 
 # Compiled binary addons
-build/Release
-build
+build/release
+build/dev
+
 
 # Logs
 logs
@@ -21,6 +22,7 @@ npm-debug.log*
 # Other
 .DS_Store
 package-lock.json
+playground/
 
 # Data
 data/
