@@ -1,10 +1,13 @@
 const fs = require("fs");
+const fileLocationForWhitelist = "whitelist.txt";
 
 exports.IsFound = IsFound;
 exports.GetToken = GetToken;
 exports.IsFoundWithWildcard = IsFoundWithWildcard;
 exports.IsFoundInWildCardEntries = IsFoundInWildCardEntries;
 exports.GetDomainListFromFile = GetDomainListFromFile;
+exports.CreateFile = CreateFile;
+exports.GetWhitelistDomains = GetWhitelistDomains;
 
 /**
  * Searches text based on regular expresion.
@@ -37,26 +40,6 @@ function GetToken(string, separator, index) {
 }
 
 
-/**
- * Searches for the entry inside the whitelist of domain entries.
- *
- * @param {*} wildCardDomainEntries
- * @param {*} domain
- * @returns
- */
-function IsFoundInWildCardEntries(wildCardDomainEntries, domain) {  
-  // TODO: can be optimized.
-  
-  let returnValue = false;
-  domain = domain || "";
-  wildCardDomainEntries = wildCardDomainEntries || [];
-  
-  if(wildCardDomainEntries.constructor === Array) {
-    returnValue = wildCardDomainEntries.findIndex((entry) => IsFoundWithWildcard(domain, entry) ) != -1;  
-  }  
-  
-  return returnValue;
-}
 
 
 /**
@@ -102,6 +85,29 @@ function IsFoundWithWildcard(str, rule) {
 
 
 /**
+ * Searches for the entry inside the whitelist of domain entries.
+ *
+ * @param {*} wildCardDomainEntries
+ * @param {*} domain
+ * @returns
+ */
+function IsFoundInWildCardEntries(wildCardDomainEntries, domain) {  
+  // TODO: can be optimized.
+  
+  let returnValue = false;
+  domain = domain || "";
+  wildCardDomainEntries = wildCardDomainEntries || [];
+  
+  if(wildCardDomainEntries.constructor === Array) {
+    returnValue = wildCardDomainEntries.findIndex((entry) => IsFoundWithWildcard(domain, entry) ) != -1;  
+  }  
+  
+  return returnValue;
+}
+
+
+
+/**
  * Returns sanitized array, removing empty lines and # comments.
  *
  * @param {*} fileLocation
@@ -123,3 +129,37 @@ function GetDomainListFromFile(fileLocation) {
   return filteredList;
 }
 
+
+/**
+ * Creates a new whitelist.txt if the file doesn't exist. 
+ *
+ * @param {*} fileLocation
+ */
+function CreateFile(fileLocation) {
+  fs.open(fileLocation, "r", function (err, fd) {
+    if (err) {
+      fs.writeFile(fileLocation, "", function (err) {
+        // Problem, so show error message. 
+        if (err) {
+          console.log(err);
+        }
+        // Empty file created.
+      });
+    } else {
+      // File already exists; don't do anything.
+    }
+  });
+}
+
+
+/**
+ * Loads whitelist file and returns an array sanitized. 
+ *
+ * @returns
+ */
+function GetWhitelistDomains(dirPath) {  
+  let fileLocation = `${dirPath}\\${fileLocationForWhitelist}`;
+  //process.exit(1);  
+  CreateFile(fileLocation);    
+  return GetDomainListFromFile(fileLocation);
+}

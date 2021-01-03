@@ -3,7 +3,10 @@ const proxyServer = net.createServer();
 
 const constants = require('./proxy/constants').Constants;
 const proxyHandler = require('./proxy/proxy.handlers');
+const utils = require('./proxy/proxy.utils');
+const dirPath = __dirname;
 
+const whiteListDomains = utils.GetWhitelistDomains(dirPath);
 
 // =============================================
 // Let's open port and run server.
@@ -18,7 +21,7 @@ proxyServer.listen(constants.PROXY_PORT_NUMBER, () => {
 // For each connection.
 // =============================================
 proxyServer.on("connection", (clientToProxySocket) => {    
-  proxyHandler.RunForEachConnection(clientToProxySocket);  
+  proxyHandler.RunForEachConnection(clientToProxySocket, whiteListDomains);  
 });
 
 

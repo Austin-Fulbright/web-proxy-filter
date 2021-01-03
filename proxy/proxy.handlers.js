@@ -88,12 +88,14 @@ function AllowUnsecureRequest(clientSocket, serverSocket, buffer) {
 }
 
 
+
 /**
  * Executes for each unique connection. 
  *
  * @param {*} clientToProxySocket
+ * @param {*} whiteListDomains
  */
-function RunForEachConnection(clientToProxySocket) {
+function RunForEachConnection(clientToProxySocket, whiteListDomains) {     
   
   clientToProxySocket.once("data", (buffer) => {    
     let buff = GetDetailsFromBuffer(buffer);      
@@ -103,23 +105,25 @@ function RunForEachConnection(clientToProxySocket) {
         host: buff.domain,
         port: buff.port,
       },
-      () => {
-
-        let isOnBlackList = Utils.IsFound(buff.domain, "shinylight");        
+      () => {        
+        
+        let isOnWhiteList = Utils.IsFoundInWildCardEntries(whiteListDomains, buff.domain);
                 
-        if (isOnBlackList) {
-          BlockRequest(clientToProxySocket, proxyToServerSocket);
-        } else {
+        if (isOnWhiteList) {
           if (buff.isHttps) {
             AllowSecureRequest(clientToProxySocket, proxyToServerSocket);
-          } else {
-            AllowUnsecureRequest(clientToProxySocket, proxyToServerSocket, buffer);
+          } 
+          else {
+            AllowUnsecureRequest(clientToProxySocket,proxyToServerSocket,buffer);
           }
+        } 
+        else {
+          BlockRequest(clientToProxySocket, proxyToServerSocket);
         }        
  
-        let logEntry = GetDetailsFromBuffer(buffer, isOnBlackList);
+        let logEntry = GetDetailsFromBuffer(buffer, isOnWhiteList);
         
-        DB().insert('LogEntry', logEntry);        
+        DB().insert("LogEntry", logEntry);        
       }
     );
 

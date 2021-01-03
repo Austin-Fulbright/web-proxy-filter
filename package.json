@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node app.js",
-    "publish": "node ./build/publish.prod.js"
+    "publish": "node ./scripts/publish.prod.js"
   },
   "author": "ShinyLight",
   "license": "ISC",
@@ -29,7 +29,8 @@
       "./node_modules/sqlite3",
       "./node_modules/sqlite3-helper",
       "./data/*",
-      "./migrations/*"      
+      "./migrations/*",
+      "./whitelist.txt"      
     ]
   }
 }
