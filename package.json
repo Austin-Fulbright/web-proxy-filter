@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "start": "node app.js",
-    "publish": "node ./scripts/publish.prod.js"
+    "start": "node app.js"    
   },
   "author": "ShinyLight",
   "license": "ISC",
@@ -16,21 +15,5 @@
     "moment": "^2.29.1",
     "sqlite3": "^5.0.0",
     "sqlite3-helper": "^2.0.1"
-  },
-  "bin": {
-    "web-proxy-filter": "app.js"
-  },
-  "pkg": {
-    "scripts": [
-      "./proxy/*.js",
-      "./*.js"
-    ],
-    "assets": [
-      "./node_modules/sqlite3",
-      "./node_modules/sqlite3-helper",
-      "./data/*",
-      "./migrations/*",
-      "./whitelist.txt"      
-    ]
-  }
+  }  
 }

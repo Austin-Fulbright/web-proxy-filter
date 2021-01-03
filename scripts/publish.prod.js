@@ -1,3 +1,9 @@
+
+// ==================================================================---
+// ONLY RUNS with package.pkg.json. Replace/merge current package.json 
+// with package.pkg.json.
+// ==================================================================---
+
 const fs = require("fs");
 const copydir = require("copy-dir");
 const { exec } = require("child_process");
