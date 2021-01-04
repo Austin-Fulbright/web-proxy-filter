@@ -66,4 +66,4 @@ What it looks like:
 # Recommended Tool Kit
 
 - [Visual Studio Code](https://code.visualstudio.com/)
-- [SQLiteStudio](https://code.visualstudio.com/)
+- [SQLiteStudio](https://sqlitestudio.pl/)
