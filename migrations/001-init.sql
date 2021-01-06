@@ -5,7 +5,10 @@ CREATE TABLE LogEntry (
   port TEXT,
   userAgent TEXT,
   dateStamp TEXT,
-  blockedByList INTEGER
+  blockedByList INTEGER,
+  
+  isError INTEGER,
+  errorMessage TEXT  
 );
 
 -- Down 

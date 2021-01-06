@@ -18,7 +18,7 @@ exports.RunForEachConnection = RunForEachConnection;
  * @param {*} buffer
  * @returns
  */
-function GetDetailsFromBuffer(buffer, isOnBlackList) {
+function GetDetailsFromBuffer(buffer, isOnWhiteList) {
   let bufferString = buffer.toString();
   
   const defaultPort = "80";
@@ -42,7 +42,9 @@ function GetDetailsFromBuffer(buffer, isOnBlackList) {
     port: port,
     userAgent: userAgent,
     dateStamp: dateStamp,
-    blockedByList: isOnBlackList ? 1 : 0,
+    blockedByList: isOnWhiteList ? 1 : 0,
+    isError: 0,
+    errorMessage: ''
   };      
 }
 
@@ -128,16 +130,26 @@ function RunForEachConnection(clientToProxySocket, whiteListDomains) {
     );
 
     // If there was an oopsie.
-    proxyToServerSocket.on("error", (error) => {
+    proxyToServerSocket.on("error", (error) => {      
+      buff.isError = 1;
+      buff.errorMessage = error;
+      DB().insert("LogEntry", buff);   
+      
       clientToProxySocket.write(
         [constants.HTTP_STATUS_503, "connection: close"].join("\n") + "\n\n"
       );
       clientToProxySocket.end();
     });
 
-    clientToProxySocket.on("error", (error) => {
-      console.log("CLIENT TO PROXY ERROR");
+    clientToProxySocket.on("error", (error) => {      
+      buff.isError = 1;
+      buff.errorMessage = error;
+      DB().insert("LogEntry", buff);         
+      
+      console.log("=======================================================");
+      console.log("CLIENT TO PROXY ERROR");      
       console.log(error);
+      console.log(buff);
     });
   });
 }
