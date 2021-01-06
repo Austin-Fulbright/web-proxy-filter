@@ -22,7 +22,13 @@ function GetDetailsFromBuffer(buffer, isOnWhiteList) {
   let bufferString = buffer.toString();
   
   const defaultPort = "80";
-  const dateStamp = moment().format("YYYY-MM-DD h:mm:ss A");    
+  // const twelveHourFormat = "YYYY-MM-DD h:mm:ss A";
+  
+  // Using this format so we can properly convert to DateTime
+  // in Sqlite.
+  const twentyFourFormat = "YYYY-MM-DD HH:mm:ss";
+  
+  const dateStamp = moment().format(twentyFourFormat);    
   
   bufferLines = bufferString.split("\r\n");   
   
@@ -42,7 +48,7 @@ function GetDetailsFromBuffer(buffer, isOnWhiteList) {
     port: port,
     userAgent: userAgent,
     dateStamp: dateStamp,
-    blockedByList: isOnWhiteList ? 1 : 0,
+    blockedByList: isOnWhiteList ? 0 : 1,
     isError: 0,
     errorMessage: ''
   };      
@@ -80,10 +86,9 @@ function AllowSecureRequest(clientSocket, serverSocket) {
  *
  */
 function AllowUnsecureRequest(clientSocket, serverSocket, buffer) {
-  //console.log("UNSECURE");
+  // console.log("UNSECURE");
   
-  // Do other stuff before hand.
-  
+  // Do other stuff before hand.  
   serverSocket.write(buffer);  // We can't do this in https.
   clientSocket.pipe(serverSocket);
   serverSocket.pipe(clientSocket);      
