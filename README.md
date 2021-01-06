@@ -13,11 +13,19 @@ npm i
 ```
 
 To start the server, run:
-
 ```
 npm start
 ```
-Which should run app.js. If you use Windows 10, set the Proxy settings like so:
+
+Which should run app.js. 
+
+If you had to update Node to run this and you get some "cannot find module" error, try rebuilding dependencies:
+
+```
+npm rebuild
+```
+
+If you use Windows 10, set the Proxy settings like so:
 
 
 ![picture 1](docs/images/62b23c233b8e4adef3ccea090b4443a43abd5b59a1893d3b5ebad08ac123e16f.png)  
@@ -58,4 +66,4 @@ What it looks like:
 # Recommended Tool Kit
 
 - [Visual Studio Code](https://code.visualstudio.com/)
-- [SQLiteStudio](https://code.visualstudio.com/)
+- [SQLiteStudio](https://sqlitestudio.pl/)
