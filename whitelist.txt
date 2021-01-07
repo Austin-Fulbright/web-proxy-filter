@@ -1,19 +1,2 @@
-
-
-www.bing.com  
-google.com
-
-
-
-
-ask.com
-
-
-
-
-yahoo.com
-
-
-# ask.com
-
-microsoft.com
+# Allow Everything
+*
