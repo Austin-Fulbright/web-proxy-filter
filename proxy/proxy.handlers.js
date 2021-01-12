@@ -40,11 +40,13 @@ function GetDetailsFromBuffer(buffer, isOnWhiteList) {
   const isHttps = Utils.GetToken(bufferLines[0], " ", 0) === "CONNECT";  
   const domain = Utils.GetToken(bufferLines[1], ":", 1).trim();
   const port = Utils.GetToken(bufferLines[1], ":", 2).trim() || defaultPort;
-  const userAgent = Utils.GetToken(bufferLines[3], ":", 1).trim();    
+  const userAgent = Utils.GetToken(bufferLines[3], ":", 1).trim();
+  const domainRoot = Utils.GetDomainRoot(domain);
   
   return {
     isHttps: isHttps ? 1 : 0,
     domain: domain,
+    domainRoot: domainRoot,
     port: port,
     userAgent: userAgent,
     dateStamp: dateStamp,

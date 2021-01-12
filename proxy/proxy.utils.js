@@ -8,6 +8,7 @@ exports.IsFoundInWildCardEntries = IsFoundInWildCardEntries;
 exports.GetDomainListFromFile = GetDomainListFromFile;
 exports.CreateFile = CreateFile;
 exports.GetWhitelistDomains = GetWhitelistDomains;
+exports.GetDomainRoot = GetDomainRoot;
 
 /**
  * Searches text based on regular expresion.
@@ -158,8 +159,29 @@ function CreateFile(fileLocation) {
  * @returns
  */
 function GetWhitelistDomains(dirPath) {  
-  let fileLocation = `${dirPath}\\${fileLocationForWhitelist}`;
-  //process.exit(1);  
+  let fileLocation = `${dirPath}\\${fileLocationForWhitelist}`;  
   CreateFile(fileLocation);    
   return GetDomainListFromFile(fileLocation);
+}
+
+
+
+/**
+ * Returns only the root domain from the host/full domain.
+ * 
+ * @param {*} domain
+ * @returns
+ */
+function GetDomainRoot(domain) {  
+  let returnValue = "";    
+  let isDomainValidForParsing = domain !== "null" && domain !== "" && domain !== null && domain !== undefined;   
+  if(isDomainValidForParsing) {
+    returnValue = domain.split('.').reverse();  
+    returnValue = returnValue[1] + '.' + returnValue[0];      
+  }
+  else {
+    // if not valid for parsing, return what was passed in or ""
+    returnValue = domain || "";
+  }  
+  return returnValue;
 }

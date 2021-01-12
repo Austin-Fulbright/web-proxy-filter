@@ -2,6 +2,7 @@
 CREATE TABLE LogEntry (
   isHttps INTEGER,
   domain TEXT,
+  domainRoot TEXT,
   port TEXT,
   userAgent TEXT,
   dateStamp TEXT,

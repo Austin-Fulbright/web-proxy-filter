@@ -93,7 +93,8 @@ test('IsFoundInWildCardEntries', () => {
 
 
 test('GetDomainListFromFile', () => {      
-  let fileLocation = "./whitelist.txt";
+  // path is relative to app.js
+  let fileLocation = "./test/whitelist.txt";
   
   let whiteList = [
     "www.bing.com",
@@ -104,4 +105,39 @@ test('GetDomainListFromFile', () => {
   ];  
 
   expect(utils.GetDomainListFromFile(fileLocation)).toStrictEqual(whiteList);  
+});
+
+
+test('GetDomainRoot', () => {   
+  expect(utils.GetDomainRoot('a1.telemetry.api.wmcdp.io')).toBe('wmcdp.io');
+  expect(utils.GetDomainRoot('static.politico.com')).toBe('politico.com');
+  expect(utils.GetDomainRoot('usasync01.admantx.com')).toBe('admantx.com');
+  expect(utils.GetDomainRoot('assets-c3.propublica.org')).toBe('propublica.org');
+  expect(utils.GetDomainRoot('adservice.google.com')).toBe('google.com');
+  expect(utils.GetDomainRoot('www.dianomi.com')).toBe('dianomi.com');
+  expect(utils.GetDomainRoot('sts3.wsj.net')).toBe('wsj.net');
+  expect(utils.GetDomainRoot('a125375509.cdn.optimizely.com')).toBe('optimizely.com');
+  expect(utils.GetDomainRoot('video-api.wsj.com')).toBe('wsj.com');
+  expect(utils.GetDomainRoot('d3i6fh83elv35t.cloudfront.net')).toBe('cloudfront.net');
+  expect(utils.GetDomainRoot('preview.redd.it')).toBe('redd.it');
+  expect(utils.GetDomainRoot('video-api.wsj.com')).toBe('wsj.com');
+  expect(utils.GetDomainRoot('geolocation.onetrust.com')).toBe('onetrust.com');
+  expect(utils.GetDomainRoot('securepubads.g.doubleclick.net')).toBe('doubleclick.net');
+  expect(utils.GetDomainRoot('google.com')).toBe('google.com');  
+  expect(utils.GetDomainRoot('.com')).toBe('.com');
+  expect(utils.GetDomainRoot('com.')).toBe('com.');
+  expect(utils.GetDomainRoot('.com')).toBe('.com');
+  expect(utils.GetDomainRoot('.com')).toBe('.com');
+  expect(utils.GetDomainRoot('undefined. ')).toBe('undefined. ');
+  expect(utils.GetDomainRoot('.')).toBe('.');
+  expect(utils.GetDomainRoot('i.j')).toBe('i.j');
+  expect(utils.GetDomainRoot('.,')).toBe('.,');
+  expect(utils.GetDomainRoot('%^%^@#R!!%%!.$')).toBe('%^%^@#R!!%%!.$');
+  expect(utils.GetDomainRoot('R!!%%!.$')).toBe('R!!%%!.$');
+  expect(utils.GetDomainRoot(null)).toBe('');
+  expect(utils.GetDomainRoot(undefined)).toBe('');
+  expect(utils.GetDomainRoot('.')).toBe('.');
+  expect(utils.GetDomainRoot('null')).toBe('null');   
+
+  
 });
