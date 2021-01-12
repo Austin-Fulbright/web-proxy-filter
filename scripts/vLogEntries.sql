@@ -1,14 +1,15 @@
-CREATE VIEW vLogEntries
+CREATE VIEW vLogEntries 
 AS
 SELECT 
     isHttps,
     domain,
     domainRoot,
     port,
-    --userAgent,
+    userAgent,
     
     -- Date Stamp Raw
-    dateStamp AS 'dateTime',      
+    -- dateStamp AS 'dateTime',          
+    strftime('%Y-%m-%d %H:%M:%S', dateStamp) as 'dateTime',
     
     -- Date Stamp as 12-hour time format
     strftime('%Y-%m-%d', dateStamp) || ' ' || 
