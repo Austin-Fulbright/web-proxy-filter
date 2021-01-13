@@ -76,5 +76,6 @@ npm test
 
 # Recommended Tool Kit
 
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [SQLiteStudio](https://sqlitestudio.pl/)
+- [NSSM](https://nssm.cc/) - Run this proxy app as a Windows service. [Check out repo.](https://github.com/kirillkovalenko/nssm) or [author's personal repo](https://git.nssm.cc/nssm/nssm).
+- [Visual Studio Code](https://code.visualstudio.com/) - JavaScript editor used.
+- [SQLiteStudio](https://sqlitestudio.pl/) - SQLite editor used.
