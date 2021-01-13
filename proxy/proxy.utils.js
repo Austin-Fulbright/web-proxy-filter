@@ -174,7 +174,8 @@ function GetWhitelistDomains(dirPath) {
  */
 function GetDomainRoot(domain) {  
   let returnValue = "";    
-  let isDomainValidForParsing = domain !== "null" && domain !== "" && domain !== null && domain !== undefined;   
+  let isDomainValidForParsing = domain !== "null" && domain !== "" && domain !== null 
+                                && domain !== undefined && domain.indexOf('.') !== -1;  
   if(isDomainValidForParsing) {
     returnValue = domain.split('.').reverse();  
     returnValue = returnValue[1] + '.' + returnValue[0];      

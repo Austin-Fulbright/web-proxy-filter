@@ -2,7 +2,7 @@
 
 Intended to be used as a web proxy for web browsers to block websites. Logs to a SQLite database.
 
-
+*RUN All these npm commands from the same directory as app.js.*
 
 # Running from Console
 
@@ -64,6 +64,14 @@ CREATE TABLE LogEntry (
 What it looks like:
 
 ![picture 3](docs/images/34c48edc2df54262d4b5130283c8ed257edc68e5eea4e45d687991689e7660e4.png)  
+
+
+# Running Tests
+Uses [Jest](https://www.npmjs.com/package/jest). Tests not complete yet. So far only methods in utils.
+
+```
+npm test
+```
 
 
 # Recommended Tool Kit

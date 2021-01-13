@@ -138,6 +138,7 @@ test('GetDomainRoot', () => {
   expect(utils.GetDomainRoot(undefined)).toBe('');
   expect(utils.GetDomainRoot('.')).toBe('.');
   expect(utils.GetDomainRoot('null')).toBe('null');   
+  expect(utils.GetDomainRoot('txuormyffyf')).toBe('txuormyffyf');   
 
   
 });
