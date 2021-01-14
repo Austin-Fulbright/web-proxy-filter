@@ -12,7 +12,7 @@ jspm_packages/
 # Compiled binary addons
 build/release
 build/dev
-
+build/
 
 # Logs
 logs
