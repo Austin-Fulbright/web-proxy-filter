@@ -1,6 +1,7 @@
 const net = require("net");
 const moment = require("moment");
 const DB = require('sqlite3-helper');
+const parser = require('http-string-parser');
 //const DB = require('better-sqlite3-helper');
 
 const Utils = require('./proxy.utils');
@@ -41,16 +42,10 @@ function GetDetailsFromBuffer(buffer, isOnWhiteList) {
   
   // Using this format so we can properly convert to DateTime
   // in Sqlite.
-  const twentyFourFormat = "YYYY-MM-DD HH:mm:ss";
+  const twentyFourFormat = "YYYY-MM-DD HH:mm:ss";  
+  const dateStamp = moment().format(twentyFourFormat);       
   
-  const dateStamp = moment().format(twentyFourFormat);    
-  
-  bufferLines = bufferString.split("\r\n");   
-  
-  // filter bufferLines to get only lines that 
-  // ALWAYS INCLUDE INDEX 0
-  // ON INDEX 1 and above, loop through all lines until you
-  // only have User-Agent and Host
+  let request = parser.parseRequest(bufferString);  
 
   const isHttps = request.method == "CONNECT" && request.uri.endsWith(":443");
   const port = isHttps ? "443" : ( IsNormalInteger(GetToken(request.uri, ":", 1)) ? GetToken(request.uri, ":", 1) : defaultPort) || "";
