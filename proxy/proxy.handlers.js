@@ -48,7 +48,7 @@ function GetDetailsFromBuffer(buffer, isOnWhiteList) {
   let request = parser.parseRequest(bufferString);  
 
   const isHttps = request.method == "CONNECT" && request.uri.endsWith(":443");
-  const port = isHttps ? "443" : ( IsNormalInteger(GetToken(request.uri, ":", 1)) ? GetToken(request.uri, ":", 1) : defaultPort) || "";
+  const port = isHttps ? "443" : ( IsNormalInteger(Utils.GetToken(request.uri, ":", 1)) ? Utils.GetToken(request.uri, ":", 1) : defaultPort) || "";
   const domain = (request.headers['Host'] || "").replace(":" + port, "");
   const userAgent = request.headers['User-Agent'] || "";
   const domainRoot = Utils.GetDomainRoot(domain);    
