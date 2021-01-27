@@ -11,6 +11,21 @@ exports.BlockRequest = BlockRequest;
 exports.AllowSecureRequest = AllowSecureRequest;
 exports.AllowUnsecureRequest = AllowUnsecureRequest;
 exports.RunForEachConnection = RunForEachConnection;
+exports.IsNormalInteger = IsNormalInteger;
+
+
+
+/**
+ * Checks to see if it's a positive integer.
+ *
+ * @param {*} str
+ * @returns
+ */
+function IsNormalInteger(str) {
+  return /^\+?(0|[1-9]\d*)$/.test(str);
+}
+
+
 
 /**
  * Parses buffer data into Json object. 
@@ -36,12 +51,12 @@ function GetDetailsFromBuffer(buffer, isOnWhiteList) {
   // ALWAYS INCLUDE INDEX 0
   // ON INDEX 1 and above, loop through all lines until you
   // only have User-Agent and Host
-  
-  const isHttps = Utils.GetToken(bufferLines[0], " ", 0) === "CONNECT";  
-  const domain = Utils.GetToken(bufferLines[1], ":", 1).trim();
-  const port = Utils.GetToken(bufferLines[1], ":", 2).trim() || defaultPort;
-  const userAgent = Utils.GetToken(bufferLines[3], ":", 1).trim();
-  const domainRoot = Utils.GetDomainRoot(domain);
+
+  const isHttps = request.method == "CONNECT" && request.uri.endsWith(":443");
+  const port = isHttps ? "443" : ( IsNormalInteger(GetToken(request.uri, ":", 1)) ? GetToken(request.uri, ":", 1) : defaultPort) || "";
+  const domain = (request.headers['Host'] || "").replace(":" + port, "");
+  const userAgent = request.headers['User-Agent'] || "";
+  const domainRoot = Utils.GetDomainRoot(domain);    
   
   return {
     isHttps: isHttps ? 1 : 0,
