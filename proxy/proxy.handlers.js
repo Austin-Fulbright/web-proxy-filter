@@ -163,10 +163,10 @@ function RunForEachConnection(clientToProxySocket, whiteListDomains) {
       buff.errorMessage = error;
       DB().insert("LogEntry", buff);         
       
-      console.log("=======================================================");
-      console.log("CLIENT TO PROXY ERROR");      
-      console.log(error);
-      console.log(buff);
+      // console.log("=======================================================");
+      // console.log("CLIENT TO PROXY ERROR");      
+      // console.log(error);
+      // console.log(buff);
     });
   });
 }
