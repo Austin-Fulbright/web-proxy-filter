@@ -13,7 +13,6 @@ CREATE TABLE LogEntry (
 );
 
 
-
 CREATE VIEW vLogEntries 
 AS
 SELECT 
@@ -28,17 +27,17 @@ SELECT
     strftime('%Y-%m-%d %H:%M:%S', dateStamp) as 'dateTime',
     
     -- Date Stamp as 12-hour time format
-    strftime('%Y-%m-%d', dateStamp) || ' ' || 
-    CASE WHEN strftime('%H', dateStamp) % 12 = 0 THEN 
+    strftime('%Y-%m-%d', dateStamp) || ' ' ||     
+    CASE WHEN CAST(strftime('%H', dateStamp) AS INT) % 12 = 0 THEN 
       12
-    ELSE 
-      strftime('%H', dateStamp) % 12 
+    ELSE       
+      CAST(strftime('%H', dateStamp) AS INT) % 12 
     END || ':' || strftime('%M', dateStamp) 
         || ' ' || CASE WHEN
-                    strftime('%H', dateStamp) > 12 THEN 'PM'
+                    CAST(strftime('%H', dateStamp) AS INT) < 12 THEN 'AM'
                   ELSE 
-                    'AM' 
-                  END AS 'dateTime12h',    
+                    'PM' 
+                  END AS 'dateTime12h',                      
     
     -- Date Only
     strftime('%Y-%m-%d', dateStamp) AS 'date',
