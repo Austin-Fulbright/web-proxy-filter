@@ -52,14 +52,14 @@ SELECT
     substr('SunMonTueWedThuFriSat', 1 + 3 * strftime('%w', dateStamp), 3) as 'dayOfWeek',    
 
     -- Is Today
-    CASE WHEN strftime('%Y-%m-%d', dateStamp) = date('now') THEN 
+    CASE WHEN strftime('%Y-%m-%d', dateStamp) = date('now', 'localtime') THEN 
       1
     ELSE 
       0 
     END AS 'isToday',
     
     -- Is Within This Week (SUNDAY = 0, MONDAY = 1, TUES = 2, etc.)
-    CASE WHEN strftime('%W', dateStamp) = strftime('%W',date('now')) THEN 
+    CASE WHEN strftime('%W', dateStamp) = strftime('%W',date('now', 'localtime')) THEN 
       1
     ELSE 
       0 
