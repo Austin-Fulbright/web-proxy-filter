@@ -1,5 +1,3 @@
-test
-
 # Web Proxy Filter
 
 Intended to be used as a web proxy for web browsers to block websites. Logs to a SQLite database.
